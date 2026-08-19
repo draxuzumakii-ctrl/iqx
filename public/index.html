@@ -5,131 +5,210 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsApp Chat Generator</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            background: #f0f2f5;
         }
+
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 0 auto;
         }
-        h1 {
+
+        .header {
             text-align: center;
-            color: #333;
+            color: white;
+            margin-bottom: 30px;
         }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #333;
         }
-        input[type="text"], textarea, select {
+
+        input[type="text"], textarea, input[type="color"] {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
+            border-radius: 8px;
+            font-size: 14px;
         }
+
         textarea {
             height: 80px;
+            resize: vertical;
         }
+
+        input[type="color"] {
+            height: 40px;
+            cursor: pointer;
+        }
+
         button {
-            background: #4CAF50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 24px;
+            padding: 15px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
             width: 100%;
+            transition: transform 0.3s;
         }
+
         button:hover {
-            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
+
         button:disabled {
-            background: #ccc;
+            opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
-        #result {
-            margin-top: 20px;
-            text-align: center;
-        }
-        #result img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-            display: none;
-        }
+
         .loading {
             display: none;
             text-align: center;
             margin: 20px 0;
         }
+
         .spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #4CAF50;
+            border-top: 4px solid #667eea;
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 10px;
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .result img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .download-btn:hover {
+            background: #218838;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💬 WhatsApp Chat Generator</h1>
-        
-        <div class="form-group">
-            <label>Nama Pengirim 1:</label>
-            <input type="text" id="name1" value="Mukidi Slamet Sentosa">
+        <div class="header">
+            <h1>💬 WhatsApp Chat Generator</h1>
+            <p>Buat gambar chat WhatsApp dengan mudah</p>
         </div>
-        
-        <div class="form-group">
-            <label>Pesan 1:</label>
-            <textarea id="message1">Ini adalah contoh pesan pertama! 😄</textarea>
+
+        <div class="card">
+            <div class="form-group">
+                <label>👤 Nama Pengirim 1:</label>
+                <input type="text" id="name1" value="Mukidi Slamet Sentosa">
+            </div>
+
+            <div class="form-group">
+                <label>💬 Pesan 1:</label>
+                <textarea id="message1">Ini adalah contoh pesan pertama! 😄</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>👤 Nama Pengirim 2:</label>
+                <input type="text" id="name2" value="Upin Ipin Botak!">
+            </div>
+
+            <div class="form-group">
+                <label>💬 Pesan 2:</label>
+                <textarea id="message2">Ini adalah contoh pesan kedua!</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>🎨 Warna Background:</label>
+                <input type="color" id="bgColor" value="#1b2226">
+            </div>
+
+            <button id="generateBtn" onclick="generateChat()">
+                🎨 Generate Gambar
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Membuat gambar...</p>
+            </div>
+
+            <div class="error" id="error"></div>
+            <div class="success" id="success"></div>
+
+            <div class="result" id="result"></div>
         </div>
-        
-        <div class="form-group">
-            <label>Nama Pengirim 2:</label>
-            <input type="text" id="name2" value="Upin Ipin Botak!">
-        </div>
-        
-        <div class="form-group">
-            <label>Pesan 2:</label>
-            <textarea id="message2">Ini adalah contoh pesan kedua!</textarea>
-        </div>
-        
-        <div class="form-group">
-            <label>Warna Background:</label>
-            <input type="color" id="bgColor" value="#1b2226">
-        </div>
-        
-        <button id="generateBtn" onclick="generateChat()">🎨 Generate Gambar</button>
-        
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Membuat gambar...</p>
-        </div>
-        
-        <div class="error" id="error"></div>
-        
-        <div id="result"></div>
     </div>
 
     <script>
@@ -137,16 +216,19 @@
             const btn = document.getElementById('generateBtn');
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
+            const success = document.getElementById('success');
             const result = document.getElementById('result');
-            
+
             // Reset
             error.style.display = 'none';
+            success.style.display = 'none';
+            result.style.display = 'none';
             result.innerHTML = '';
-            
+
             // Show loading
             btn.disabled = true;
             loading.style.display = 'block';
-            
+
             try {
                 const formData = new FormData();
                 formData.append('msg1Name', document.getElementById('name1').value);
@@ -154,37 +236,49 @@
                 formData.append('msg2Name', document.getElementById('name2').value);
                 formData.append('msg2Text', document.getElementById('message2').value);
                 formData.append('backgroundColor', document.getElementById('bgColor').value);
-                formData.append('width', '512');
-                formData.append('scale', '2');
-                formData.append('outputType', 'image');
-                formData.append('msg1Avatar', 'true');
                 formData.append('msg1Number', '+6212345678909');
                 formData.append('msg1Time', '11:21');
                 formData.append('msg2Number', '+6212345678909');
                 formData.append('msg2Time', '11:23');
+
+                console.log('Mengirim request...');
                 
                 const response = await fetch('/api/generate', {
                     method: 'POST',
                     body: formData
                 });
-                
+
+                console.log('Response status:', response.status);
+
                 if (!response.ok) {
-                    throw new Error('Gagal membuat gambar');
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Gagal membuat gambar');
                 }
-                
+
                 const blob = await response.blob();
+                console.log('Blob size:', blob.size);
+                
+                if (blob.size === 0) {
+                    throw new Error('Gambar kosong');
+                }
+
                 const imageUrl = URL.createObjectURL(blob);
                 
                 // Tampilkan hasil
                 result.innerHTML = `
-                    <img src="${imageUrl}" alt="Generated Chat">
-                    <br><br>
-                    <a href="${imageUrl}" download="whatsapp-chat.png">
-                        <button>💾 Download Gambar</button>
+                    <img src="${imageUrl}" alt="Generated Chat" onload="console.log('Image loaded')" onerror="console.error('Image failed to load')">
+                    <br>
+                    <a href="${imageUrl}" download="whatsapp-chat.png" class="download-btn">
+                        💾 Download Gambar
                     </a>
                 `;
+                result.style.display = 'block';
                 
+                success.textContent = '✅ Gambar berhasil dibuat!';
+                success.style.display = 'block';
+
             } catch (err) {
+                console.error('Error:', err);
                 error.textContent = '❌ ' + err.message;
                 error.style.display = 'block';
             } finally {
